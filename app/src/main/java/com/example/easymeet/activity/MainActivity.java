@@ -1,4 +1,4 @@
-package com.example.easymeet.activities;
+package com.example.easymeet.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
