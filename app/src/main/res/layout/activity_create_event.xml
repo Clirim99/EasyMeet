@@ -1,78 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:fillViewport="true">
 
-    <!-- Event Title -->
-    <EditText
-        android:id="@+id/editTextTitle"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Event Title"
-        android:minHeight="48dp"
-        android:padding="16dp"
-        android:importantForAccessibility="yes"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:padding="16dp">
 
-    <!-- Event Description -->
-    <EditText
-        android:id="@+id/editTextDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Event Description"
-        android:inputType="textMultiLine"
-        android:minHeight="48dp"
-        android:padding="16dp"
-        android:importantForAccessibility="yes"
-        app:layout_constraintTop_toBottomOf="@id/editTextTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <!-- Event Title -->
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Event Title"
+            android:minHeight="48dp"
+            android:padding="16dp"
+            android:importantForAccessibility="yes"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Date Picker -->
-    <DatePicker
-        android:id="@+id/datePicker"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/editTextDescription"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <!-- Event Description -->
+        <EditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Event Description"
+            android:inputType="textMultiLine"
+            android:minHeight="48dp"
+            android:padding="16dp"
+            android:importantForAccessibility="yes"
+            app:layout_constraintTop_toBottomOf="@id/editTextTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Time Picker -->
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/datePicker"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <!-- Date Picker -->
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/editTextDescription"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Location -->
-    <EditText
-        android:id="@+id/editTextLocation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Event Location"
-        android:minHeight="48dp"
-        android:padding="16dp"
-        android:importantForAccessibility="yes"
-        app:layout_constraintTop_toBottomOf="@id/timePicker"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <!-- Time Picker -->
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/datePicker"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Save Button -->
-    <Button
-        android:id="@+id/btnSaveEvent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Save Event"
-        android:importantForAccessibility="yes"
-        app:layout_constraintTop_toBottomOf="@id/editTextLocation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/btnSaveEvent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Save Event"
+            android:importantForAccessibility="yes"
+            app:layout_constraintTop_toBottomOf="@id/timePicker"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

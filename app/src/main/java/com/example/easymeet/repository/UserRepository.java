@@ -69,6 +69,7 @@ public class UserRepository {
 
         try (Cursor cursor = db.rawQuery(query, args)) {
             if (cursor.moveToFirst()) {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("Id"));
                 String firstName = cursor.getString(cursor.getColumnIndexOrThrow("firstName"));
                 String lastName = cursor.getString(cursor.getColumnIndexOrThrow("lastName"));
                 String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
@@ -77,6 +78,7 @@ public class UserRepository {
 
                 // Create a User object if credentials match
                 user = new User(firstName, lastName, username, emailFromDb, passwordFromDb, null);
+                user.setId(id);
             }
         } catch (Exception e) {
             e.printStackTrace();

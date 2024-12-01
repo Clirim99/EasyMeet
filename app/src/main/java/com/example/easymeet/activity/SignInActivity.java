@@ -38,8 +38,10 @@ public class SignInActivity extends AppCompatActivity {
 
                 if(Authentication.logIn(SignInActivity.this, usernameTxt , passwordTxt))
                 {
-                    Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+
+                    Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
                     startActivity(intent);
+
                 }
                 else {
                     Toast.makeText(SignInActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();

@@ -1,6 +1,8 @@
 package com.example.easymeet.model;
 
 public class User {
+
+
     private int Id;
     private String firstName;
     private String lastName;
@@ -63,6 +65,9 @@ public class User {
         this.Id = Id;
     }
 
+    public int getId() {
+        return Id;
+    }
 
 }
 
