@@ -53,6 +53,7 @@ public class EventRepository {
                 int numMembers = cursor.getInt(cursor.getColumnIndexOrThrow("numMembers"));
 
                 event = new Event(eventName, eventTime, eventCreator, numMembers, eventDescription);
+                event.Id = eventId;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +79,10 @@ public class EventRepository {
                 String eventDescription = cursor.getString(cursor.getColumnIndexOrThrow("eventDescription"));
                 int numMembers = cursor.getInt(cursor.getColumnIndexOrThrow("numMembers"));
 
-                events.add(new Event(eventName, eventTime, eventCreator, numMembers, eventDescription));
+                Event event = new Event(eventName, eventTime, eventCreator, numMembers, eventDescription);
+                event.Id = id;
+                events.add(event);
+
             }
         } catch (Exception e) {
             e.printStackTrace();

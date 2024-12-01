@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class EventAdapter extends BaseAdapter {
     public ArrayList<Event> events = new ArrayList<>();
+
+    public ArrayList<Event> eventsJoined = new ArrayList<>();
     public CustomListener customListener;
 
     @Override
@@ -49,6 +51,14 @@ public class EventAdapter extends BaseAdapter {
 
         eventRow.eventTime.setText(event.eventTime);
 
+        if(event.eventCreator == SessionManager.getUserId(view.getContext())){
+            eventRow.joinBtn.setVisibility(View.INVISIBLE);
+        }
+        if(eventsJoined.contains(event)){
+            eventRow.joinBtn.setText("Cancel");
+        }else{
+            eventRow.joinBtn.setText("Join");
+        }
         eventRow.joinBtn.setOnClickListener(v -> {
             customListener.joinListener(event);
         });
