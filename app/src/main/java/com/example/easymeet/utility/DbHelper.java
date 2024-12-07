@@ -12,6 +12,8 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create Users table first
+        db.execSQL("PRAGMA foreign_keys=ON;");
+
         String userCreate = "CREATE TABLE IF NOT EXISTS Users (Id INTEGER PRIMARY KEY AUTOINCREMENT , firstName TEXT, lastName TEXT, username TEXT, email TEXT, password TEXT)";
         db.execSQL(userCreate);
 
@@ -46,16 +48,41 @@ public class DbHelper extends SQLiteOpenHelper {
                 "   UPDATE Events SET numMembers = numMembers - 1 WHERE Id = OLD.EventId AND numMembers > 0; " +
                 "END;";
         db.execSQL(decrementTrigger);
+        String profileTable = "CREATE TABLE IF NOT EXISTS ProfileData (" +
+                "Id INTEGER PRIMARY KEY, " +
+                "username TEXT," +
+                "profilePic TEXT, " +
+                "Description TEXT, " +
+                "FOREIGN KEY(Id) REFERENCES Users(Id) ON DELETE CASCADE)";
+        db.execSQL(profileTable);
+      //  db.execSQL(profileTable);
+        String insertProfileDataTrigger = "CREATE TRIGGER IF NOT EXISTS InsertProfileDataAfterUsersInsert " +
+                "AFTER INSERT ON Users " +
+                "FOR EACH ROW " +
+                "BEGIN " +
+                "   INSERT INTO ProfileData (Id,username,profilePic, Description) " +
+                "   VALUES (NEW.Id,NEW.username ,NULL, NULL); " +
+                "END;";
+        db.execSQL(insertProfileDataTrigger);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i2) {
-        String sql = "DROP TABLE IF EXISTS Users";
-        db.execSQL("DROP TABLE IF EXISTS Events");
-        db.execSQL("DROP TABLE IF EXISTS EventParticipants");
-        db.execSQL(sql);
-        this.onCreate(db);
-        db.close();
+        db.execSQL("PRAGMA foreign_keys=OFF;");
+        db.beginTransaction();
+        try {
+            // Drop tables in reverse dependency order
+            db.execSQL("DROP TABLE IF EXISTS EventParticipants");
+            db.execSQL("DROP TABLE IF EXISTS ProfileData");
+            db.execSQL("DROP TABLE IF EXISTS Events");
+            db.execSQL("DROP TABLE IF EXISTS Users");
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+        db.execSQL("PRAGMA foreign_keys=ON;");
+        onCreate(db);
     }
 
     public SQLiteDatabase getWritableDb() {

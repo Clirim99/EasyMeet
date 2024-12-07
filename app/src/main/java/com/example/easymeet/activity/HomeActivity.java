@@ -1,6 +1,7 @@
 package com.example.easymeet.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,11 +20,17 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.easymeet.R;
 import com.example.easymeet.model.Event;
 import com.example.easymeet.model.EventParticipants;
+import com.example.easymeet.model.ProfileData;
+import com.example.easymeet.model.User;
 import com.example.easymeet.repository.EventRepository;
+import com.example.easymeet.repository.ProfileDataRepository;
+import com.example.easymeet.repository.UserRepository;
 import com.example.easymeet.utility.EventAdapter;
 import com.example.easymeet.utility.SessionManager;
 import com.example.easymeet.repository.EventPRepository;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
@@ -45,11 +52,20 @@ public class HomeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home_screen);
 
+        profileImage = findViewById(R.id.profileImage);
+        ProfileData myProfileData = ProfileDataRepository.getProfileDataByUserId(HomeActivity.this,SessionManager.getUserId(HomeActivity.this));
+        if (myProfileData.getProfilePic() != null && !myProfileData.getProfilePic().isEmpty()) {
+            profileImage.setImageURI(Uri.fromFile(new File(myProfileData.getProfilePic())));
+        } else {
+            profileImage.setImageResource(R.drawable.avatar); // Set a default image
+        }
+
         gotoProfile = findViewById(R.id.goToProfileButton);
         gotoProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                intent.putExtra("id", String.valueOf(SessionManager.getUserId(HomeActivity.this)));
                 startActivity(intent);
             }
         });
@@ -59,6 +75,9 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomeActivity.this, CreateEventActivity.class);
+                    User user = UserRepository.getUserById(HomeActivity.this,SessionManager.getUserId(HomeActivity.this));
+                   // ProfileData profileData = new ProfileData(user.getId(),user.getUsername(),"","");
+                   // intent.putExtra("profileData", profileData);  // Pass ProfileData object
                     startActivity(intent);
                 }
             });
@@ -98,6 +117,13 @@ public class HomeActivity extends AppCompatActivity {
 //            } else {
 //                Toast.makeText(HomeActivity.this, "Failed to join the event. Try again!", Toast.LENGTH_SHORT).show();
 //            }
+        };
+
+        eventAdapter.gotoEventsListener = event -> {
+
+            Intent intent = new Intent(HomeActivity.this, MeetingElements.class);
+            intent.putExtra("id", String.valueOf(event.Id));
+            startActivity(intent);
         };
 
     }

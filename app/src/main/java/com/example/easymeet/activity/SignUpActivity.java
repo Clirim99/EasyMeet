@@ -2,6 +2,7 @@ package com.example.easymeet.activity;
 
 import static com.example.easymeet.utility.EncryptData.md5Hasshing;
 
+import android.util.Log;
 import android.widget.Toast;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +14,11 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easymeet.R;
+import com.example.easymeet.model.ProfileData;
 import com.example.easymeet.model.User;
 import com.example.easymeet.utility.Authentication;
 import com.example.easymeet.utility.EncryptData;
+import com.example.easymeet.utility.SessionManager;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import com.example.easymeet.R;
 import com.example.easymeet.model.Event;
 import com.example.easymeet.model.EventRow;
+import com.example.easymeet.model.ProfileData;
+import com.example.easymeet.repository.ProfileDataRepository;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,7 @@ public class EventAdapter extends BaseAdapter {
     public ArrayList<Event> eventsJoined = new ArrayList<>();
     public CustomListener customListener;
 
+    public GotoEventsListener gotoEventsListener ;
     @Override
     public int getCount() {
         return events.size();
@@ -44,7 +47,8 @@ public class EventAdapter extends BaseAdapter {
         eventRow.eventName.setText(event.eventName);
 
         // Convert eventCreator (assuming it's an ID or some non-string value) to String
-        eventRow.eventCreator.setText(String.valueOf(event.eventCreator));
+        ProfileData profileData = ProfileDataRepository.getProfileDataByUserId(view.getContext(), event.eventCreator);
+        eventRow.eventCreator.setText(String.valueOf(profileData.getUsername()));
 
         // Convert numMembers (assuming it's an integer) to String
         eventRow.numMembers.setText(String.valueOf(event.numMembers));
@@ -62,11 +66,21 @@ public class EventAdapter extends BaseAdapter {
         eventRow.joinBtn.setOnClickListener(v -> {
             customListener.joinListener(event);
         });
+        view.setOnClickListener(v -> {
+            gotoEventsListener.listener(event);
+        });
+
 
         return view;
     }
 
     public interface CustomListener {
+       // void listener(Event event);
         void joinListener(Event event);
     }
+    public interface GotoEventsListener {
+        // void listener(Event event);
+        void listener(Event event);
+    }
+
 }

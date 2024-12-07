@@ -26,6 +26,7 @@
         <activity android:name=".activity.HomeActivity"/>
         <activity android:name=".activity.CreateEventActivity"/>
         <activity android:name=".activity.ProfileActivity"/>
+        <activity android:name=".activity.MeetingElements"/>
 
     </application>
 

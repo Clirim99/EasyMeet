@@ -19,8 +19,8 @@ public class EventRow {
 
     public EventRow(View view ) {
         this.eventName = view.findViewById(R.id.eventName);
-        this.eventTime = view.findViewById(R.id.eventCreator);
-        this.eventCreator = view.findViewById(R.id.eventTime);
+        this.eventTime = view.findViewById(R.id.eventTime);
+        this.eventCreator = view.findViewById(R.id.eventCreator);
         this.numMembers = view.findViewById(R.id.numMembers);
         this.joinBtn = view.findViewById(R.id.joinButton);
     }

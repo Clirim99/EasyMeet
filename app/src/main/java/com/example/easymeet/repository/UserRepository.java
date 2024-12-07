@@ -4,6 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import com.example.easymeet.model.ProfileData;
 import com.example.easymeet.model.User;
 import com.example.easymeet.utility.DbHelper;
 
@@ -16,6 +19,7 @@ public class UserRepository {
         SQLiteDatabase db = dbHelper.getReadableDb();
         String query = "SELECT * FROM users WHERE email = ?";
         String[] args = {email};
+
 
         try (Cursor cursor = db.rawQuery(query, args)) {
             if (cursor.moveToFirst()) {
@@ -34,6 +38,34 @@ public class UserRepository {
         return user;
     }
 
+    public static User getUserById(Context context, int userId) {
+        User user = null;
+        DbHelper dbHelper = new DbHelper(context);
+        SQLiteDatabase db = dbHelper.getReadableDb();
+
+        // Query to get the user by Id
+        String query = "SELECT * FROM users WHERE Id = ?";
+        String[] args = {String.valueOf(userId)};
+
+        try (Cursor cursor = db.rawQuery(query, args)) {
+            if (cursor.moveToFirst()) {
+                // Fetch the user data from the cursor
+                String firstName = cursor.getString(cursor.getColumnIndexOrThrow("firstName"));
+                String lastName = cursor.getString(cursor.getColumnIndexOrThrow("lastName"));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+                String email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
+                String password = cursor.getString(cursor.getColumnIndexOrThrow("password"));
+
+                // Create and return the User object
+                user = new User(firstName, lastName, username, email, password, null);
+                user.setId(userId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
     public static boolean insertUser(Context context, User user) {
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -46,17 +78,38 @@ public class UserRepository {
         values.put("email", user.getEmail());
         values.put("password", user.getPassword());
 
+
         long id = -1;
         try {
             id = db.insert("users", null, values); // Insert user into the database
-        } catch (Exception e) {
+            String query = "SELECT Id FROM users Order by Id desc";
+
+            try (Cursor cursor = db.rawQuery(query, null)) {
+                if (cursor.moveToFirst()) {
+                    // Fetch the user data from the cursor
+                    int Id = cursor.getInt(cursor.getColumnIndexOrThrow("Id"));
+                    ProfileData profileData = new ProfileData(Id, user.getUsername(),"","");
+                    Log.d("msgid", String.valueOf(profileData.getId()));
+                    if (profileData.getId() != 0){
+                        ProfileDataRepository.insertProfileData(context,profileData);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        catch (Exception e) {
             e.printStackTrace();
         } finally {
             db.close(); // Ensure database connection is closed
         }
 
+
         // Return true if the insertion was successful, otherwise false
         return id != -1;
+
     }
 
     public static User loginUser(Context context, String email, String password) {
