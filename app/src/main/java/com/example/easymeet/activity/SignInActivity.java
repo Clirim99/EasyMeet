@@ -12,6 +12,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easymeet.R;
+import com.example.easymeet.repository.UserRepository;
 import com.example.easymeet.utility.Authentication;
 import com.example.easymeet.utility.EmailSender;
 
@@ -41,7 +42,10 @@ public class SignInActivity extends AppCompatActivity {
         // Handle forgot password action
         forgotPassword.setOnClickListener(v -> {
             String email = username.getText().toString().trim();
-
+            if(!UserRepository.doesUserExist(SignInActivity.this, email)){
+                Toast.makeText(this, "This user doesn't exist", Toast.LENGTH_SHORT).show();
+                return;
+            }
             // Validate email input
             if (email.isEmpty()) {
                 Toast.makeText(this, "Please enter an email address.", Toast.LENGTH_SHORT).show();
@@ -94,6 +98,7 @@ public class SignInActivity extends AppCompatActivity {
                     Intent intent = new Intent(SignInActivity.this, ConfirmOptCodeActivity.class);
                  //   intent.putExtra("USER_EMAIL", email);
                     intent.putExtra("VERIFICATION_CODE", code);
+                    intent.putExtra("email",email);
                     startActivity(intent);
                 });
 

@@ -15,8 +15,7 @@ import com.example.easymeet.R;
 import android.util.Log;
 
 
-public class ConfirmOptCodeActivity extends AppCompatActivity  {
-
+public class ConfirmOptCodeActivity extends AppCompatActivity {
 
     EditText confrimOptCode;
 
@@ -30,23 +29,28 @@ public class ConfirmOptCodeActivity extends AppCompatActivity  {
 
         Button goToSignUpBtn = findViewById(R.id.buttonConfirm);
         goToSignUpBtn.setOnClickListener(new View.OnClickListener() {
-            String confirmCodeTxt = String.valueOf(confrimOptCode.getText());
-            Intent intent = getIntent();
-            String confirmationCode = intent.getStringExtra("VERIFICATION_CODE");
-
             @Override
             public void onClick(View v) {
-                Log.d("TAG is:",  confirmationCode);
+                // Fetch text inside onClick
 
-                if (confirmationCode.equals(confirmCodeTxt)) {
+
+                String confirmCodeTxt = confrimOptCode.getText().toString();
+                Intent intentGet = getIntent();
+                String confirmationCode = intentGet.getStringExtra("VERIFICATION_CODE");
+                String getEmail = intentGet.getStringExtra("email");
+                // Log both values for debugging
+                Log.d("TAG is:", confirmationCode);
+                Log.d("Entered text is:", confirmCodeTxt);
+
+                // Add null check and compare strings safely
+                if (confirmationCode != null && confirmationCode.equals(confirmCodeTxt)) {
                     Intent intent = new Intent(ConfirmOptCodeActivity.this, ChangePasswordActivity.class);
+                    intent.putExtra("email",getEmail);
                     startActivity(intent);
-                }
-                else {
-                    Toast.makeText(ConfirmOptCodeActivity.this, "wrong code.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ConfirmOptCodeActivity.this, "Wrong code.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
 }

@@ -167,4 +167,25 @@ public class UserRepository {
 
         return userExists;
     }
+
+    public static boolean updatePassword(Context context, String email, String newPassword) {
+        DbHelper dbHelper = new DbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        boolean isUpdated = false;
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put("password", newPassword);
+
+            // Update the password where the email matches
+            int rowsAffected = db.update("users", values, "email = ?", new String[]{email});
+            isUpdated = rowsAffected > 0; // Returns true if at least one row was updated
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.close(); // Ensure the database is closed
+        }
+
+        return isUpdated;
+    }
 }
