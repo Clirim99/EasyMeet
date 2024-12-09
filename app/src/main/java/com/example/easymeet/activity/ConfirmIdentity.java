@@ -12,10 +12,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easymeet.R;
-import android.util.Log;
 
-
-public class ConfirmOptCodeActivity extends AppCompatActivity {
+public class ConfirmIdentity extends AppCompatActivity {
 
     EditText confrimOptCode;
 
@@ -23,12 +21,12 @@ public class ConfirmOptCodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.opt_code_confirm);
+        setContentView(R.layout.confirm_your_identity);
 
         confrimOptCode = findViewById(R.id.editTextOtp);
 
-        Button goToConfirmPassword = findViewById(R.id.buttonConfirm);
-        goToConfirmPassword.setOnClickListener(new View.OnClickListener() {
+        Button goToHomeActivity = findViewById(R.id.buttonConfirm);
+        goToHomeActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Fetch text inside onClick
@@ -37,18 +35,16 @@ public class ConfirmOptCodeActivity extends AppCompatActivity {
                 String confirmCodeTxt = confrimOptCode.getText().toString();
                 Intent intentGet = getIntent();
                 String confirmationCode = intentGet.getStringExtra("VERIFICATION_CODE");
-                String getEmail = intentGet.getStringExtra("email");
                 // Log both values for debugging
                 Log.d("TAG is:", confirmationCode);
                 Log.d("Entered text is:", confirmCodeTxt);
 
                 // Add null check and compare strings safely
                 if (confirmationCode != null && confirmationCode.equals(confirmCodeTxt)) {
-                    Intent intent = new Intent(ConfirmOptCodeActivity.this, ChangePasswordActivity.class);
-                    intent.putExtra("email",getEmail);
+                    Intent intent = new Intent(ConfirmIdentity.this, HomeActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(ConfirmOptCodeActivity.this, "Wrong code.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConfirmIdentity.this, "Wrong code.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

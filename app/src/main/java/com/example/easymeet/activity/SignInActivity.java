@@ -67,11 +67,13 @@ public class SignInActivity extends AppCompatActivity {
             String passwordTxt = password.getText().toString().trim();
 
             if (Authentication.logIn(SignInActivity.this, usernameTxt, passwordTxt)) {
-                Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
-                startActivity(intent);
+                sendLoginEmail(usernameTxt);
+                //Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+                //startActivity(intent);
             } else {
                 Toast.makeText(SignInActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
             }
+            //sendLoginEmail(usernameTxt);
         });
     }
 
@@ -113,7 +115,38 @@ public class SignInActivity extends AppCompatActivity {
         }).start();
     }
 
+    private void sendLoginEmail(String email) {
+        new Thread(() -> {
+            // Generate a 6-digit verification code
+            String code = generateVerificationCode();
 
+            try {
+                // Attempt to send the email
+                EmailSender.sendCode(email, code);
+
+                // Update the UI on successful email sending
+                runOnUiThread(() -> {
+                    Toast.makeText(SignInActivity.this, "6-digit code sent to " + email, Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Verification code sent to: " + email);
+
+                    // Redirect to the verification screen
+                    Intent intent = new Intent(SignInActivity.this, ConfirmIdentity.class);
+                    //   intent.putExtra("USER_EMAIL", email);
+                    intent.putExtra("VERIFICATION_CODE", code);
+                    intent.putExtra("email",email);
+                    startActivity(intent);
+                });
+
+            } catch (MessagingException e) {
+                // Handle email sending failure
+                Log.e(TAG, "Failed to send email: " + e.getMessage(), e);
+
+                runOnUiThread(() -> {
+                    Toast.makeText(SignInActivity.this, "Failed to send verification code. Please try again.", Toast.LENGTH_SHORT).show();
+                });
+            }
+        }).start();
+    }
     /**
      * Generates a 6-digit verification code.
      *
