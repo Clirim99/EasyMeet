@@ -12,8 +12,11 @@ import com.example.easymeet.model.Event;
 import com.example.easymeet.model.ProfileData;
 import com.example.easymeet.repository.EventRepository;
 import com.example.easymeet.repository.ProfileDataRepository;
+import com.example.easymeet.utility.SessionManager;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +32,9 @@ public class MeetingElements extends AppCompatActivity {
     TextView eventTime;
     TextView numberOfMembers;
     TextView eventDescription;
+    Button cancelEvent;
+    String id;
+    String myUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +42,12 @@ public class MeetingElements extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_itemelements);
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+        id = intent.getStringExtra("id");
+        Log.d("userID for event:", id);
+
         Event event = EventRepository.getEventById(MeetingElements.this, Integer.parseInt(id));
-        Log.d("eventID:", String.valueOf(event.Id));
-        ProfileData profileData = ProfileDataRepository.getProfileDataByUserId(MeetingElements.this,Integer.parseInt(id));
+        Log.d("eventID:", String.valueOf(event.eventCreator));
+        ProfileData profileData = ProfileDataRepository.getProfileDataByUserId(MeetingElements.this,event.eventCreator);
         initializeComponents(event,profileData);
 
        // imageView = findViewById(R.id.eventImage); // Assuming the imageView ID in the layout is "imageView"
@@ -51,7 +59,8 @@ public class MeetingElements extends AppCompatActivity {
         if (profileData.getProfilePic() != null && !profileData.getProfilePic().isEmpty()) {
             imageView.setImageURI(Uri.fromFile(new File(profileData.getProfilePic())));
         } else {
-            imageView.setImageResource(R.drawable.avatar); // Set a default image
+            //imageView.setImageResource(R.drawable.avatar); // Set a default image
+            imageView.setImageResource(R.drawable.avatar);
         }
         creatorName = findViewById(R.id.creatorName);
         creatorName.setText(profileData.getUsername());
@@ -68,6 +77,19 @@ public class MeetingElements extends AppCompatActivity {
 
         eventDescription = findViewById(R.id.eventDescription);
         eventDescription.setText(event.eventDescription);
+        cancelEvent = findViewById(R.id.cancelEventButton);
+        if (event.eventCreator == SessionManager.getUserId(MeetingElements.this)){
+        cancelEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            EventRepository.deleteEvent(MeetingElements.this,event);
+            Intent intent = new Intent(MeetingElements.this, HomeActivity.class);
+            startActivity(intent);
+            }
+        });}
+        else {
+            cancelEvent.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void openProfileActivity(int userId) {

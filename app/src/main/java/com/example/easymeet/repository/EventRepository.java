@@ -93,4 +93,24 @@ public class EventRepository {
         return events;
     }
 
+
+    public static boolean deleteEvent(Context context, Event event) {
+        DbHelper dbHelper = new DbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        int rowsDeleted = 0;
+
+        try {
+            // Attempt to delete the event by its ID
+            rowsDeleted = db.delete("events", "Id = ?", new String[]{String.valueOf(event.Id)});
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.close();
+        }
+
+        // Return true if at least one row was deleted
+        return rowsDeleted > 0;
+    }
+
 }

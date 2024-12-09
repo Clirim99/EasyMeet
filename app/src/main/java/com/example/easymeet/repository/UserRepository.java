@@ -148,4 +148,23 @@ public class UserRepository {
         User user = getUserByEmail(context, email);
         return user != null;
     }
+
+    public static boolean doesUserExist(Context context, String email) {
+        DbHelper dbHelper = new DbHelper(context);
+        SQLiteDatabase db = dbHelper.getReadableDb();
+        boolean userExists = false;
+
+        String query = "SELECT 1 FROM users WHERE email = ?";
+        String[] args = {email};
+
+        try (Cursor cursor = db.rawQuery(query, args)) {
+            userExists = cursor.moveToFirst(); // If a result exists, the user exists
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.close(); // Ensure database is closed
+        }
+
+        return userExists;
+    }
 }

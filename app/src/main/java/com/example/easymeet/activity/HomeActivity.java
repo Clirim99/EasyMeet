@@ -123,6 +123,7 @@ public class HomeActivity extends AppCompatActivity {
 
             Intent intent = new Intent(HomeActivity.this, MeetingElements.class);
             intent.putExtra("id", String.valueOf(event.Id));
+           // intent.putExtra("userId", SessionManager.getUserId(HomeActivity.this));
             startActivity(intent);
         };
 
