@@ -3,6 +3,8 @@ import java.util.regex.Pattern.compile
 plugins {
 
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -46,4 +48,5 @@ dependencies {
     implementation("com.sun.mail:android-mail:1.6.2")
     implementation("com.sun.mail:android-activation:1.6.2")
     compile("com.brevo:brevo:1.0.0")
+    implementation("com.google.firebase:firebase-messaging:24.1.0")
 }

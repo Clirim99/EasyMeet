@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 public class EmailSender {
     private static String adminEmail = "matoshiqlirim@gmail.com"; // replace this with your email
 
-    private static String AppPassword = "frzi gdpj jncr qxtc"; // generate an app password with google
+    private static String AppPassword = "rcis mhrs bgfv qiil"; // generate an app password with google
 
 
 

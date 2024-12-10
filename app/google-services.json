@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "902552859561",
+    "project_id": "easy-meet-clira",
+    "storage_bucket": "easy-meet-clira.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902552859561:android:218309fca8699959d28ab8",
+        "android_client_info": {
+          "package_name": "com.example.easymeet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4Xstr7SMjoV8WN2sqH7xIiNVFFy3F7UY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
