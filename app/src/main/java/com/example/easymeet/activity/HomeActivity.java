@@ -22,6 +22,7 @@ import com.example.easymeet.repository.EventRepository;
 import com.example.easymeet.repository.ProfileDataRepository;
 import com.example.easymeet.repository.UserRepository;
 import com.example.easymeet.utility.EventAdapter;
+import com.example.easymeet.utility.NotificationUtils;
 import com.example.easymeet.utility.SessionManager;
 import com.example.easymeet.repository.EventPRepository;
 
@@ -48,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home_screen);
 
+
         profileImage = findViewById(R.id.profileImage);
         ProfileData myProfileData = ProfileDataRepository.getProfileDataByUserId(HomeActivity.this,SessionManager.getUserId(HomeActivity.this));
         if (myProfileData.getProfilePic() != null && !myProfileData.getProfilePic().isEmpty()) {
@@ -55,6 +57,10 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             profileImage.setImageResource(R.drawable.avatar); // Set a default image
         }
+        NotificationUtils.createNotificationChannel(HomeActivity.this);
+
+        NotificationUtils.sendLoginNotification(HomeActivity.this,
+                "Login Successful", "Welcome to easymeet " + myProfileData.getUsername());
 
         gotoProfile = findViewById(R.id.goToProfileButton);
         gotoProfile.setOnClickListener(new View.OnClickListener() {

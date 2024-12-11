@@ -12,6 +12,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easymeet.R;
+import com.example.easymeet.utility.NotificationUtils;
 
 public class ConfirmIdentity extends AppCompatActivity {
 
@@ -39,15 +40,15 @@ public class ConfirmIdentity extends AppCompatActivity {
                 Log.d("TAG is:", confirmationCode);
                 Log.d("Entered text is:", confirmCodeTxt);
 
-                // Add null check and compare strings safely
                 if (confirmationCode != null && confirmationCode.equals(confirmCodeTxt)) {
                     Intent intent = new Intent(ConfirmIdentity.this, HomeActivity.class);
                     startActivity(intent);
-                    finish();
                 } else {
                     Toast.makeText(ConfirmIdentity.this, "Wrong code.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
+
 }

@@ -38,17 +38,14 @@ public class SignInActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_in);
 
-        // Initialize UI components
         username = findViewById(R.id.usernameinput);
         password = findViewById(R.id.passwordInput);
         forgotPassword = findViewById(R.id.forgotPasswordText);
         createNewAccount = findViewById(R.id.gotoSignUpEditText);
-        // Handle forgot password action
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // Do nothing to effectively disable the back button
             }
         });
         forgotPassword.setOnClickListener(v -> {
@@ -57,7 +54,7 @@ public class SignInActivity extends AppCompatActivity {
                 Toast.makeText(this, "This user doesn't exist", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // Validate email input
+
             if (email.isEmpty()) {
                 Toast.makeText(this, "Please enter an email address.", Toast.LENGTH_SHORT).show();
                 return;
@@ -67,7 +64,7 @@ public class SignInActivity extends AppCompatActivity {
                 return;
             }
 
-            // Send the email asynchronously
+
             sendForgotPasswordEmail(email);
         });
 
@@ -75,7 +72,7 @@ public class SignInActivity extends AppCompatActivity {
             Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
-                    // Handle login action
+
         Button loginBtn = findViewById(R.id.loginButton);
         loginBtn.setOnClickListener(v -> {
             String usernameTxt = username.getText().toString().trim();

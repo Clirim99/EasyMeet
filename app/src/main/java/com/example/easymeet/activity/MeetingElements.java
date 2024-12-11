@@ -33,7 +33,7 @@ public class MeetingElements extends AppCompatActivity {
     TextView eventDescription;
     Button cancelEvent;
     String id;
-    String myUserId;
+   // String myUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,6 @@ public class MeetingElements extends AppCompatActivity {
         ProfileData profileData = ProfileDataRepository.getProfileDataByUserId(MeetingElements.this,event.eventCreator);
         initializeComponents(event,profileData);
 
-       // imageView = findViewById(R.id.eventImage); // Assuming the imageView ID in the layout is "imageView"
         imageView.setOnClickListener(v -> openProfileActivity(event.eventCreator));
     }
 
@@ -58,7 +57,6 @@ public class MeetingElements extends AppCompatActivity {
         if (profileData.getProfilePic() != null && !profileData.getProfilePic().isEmpty()) {
             imageView.setImageURI(Uri.fromFile(new File(profileData.getProfilePic())));
         } else {
-            //imageView.setImageResource(R.drawable.avatar); // Set a default image
             imageView.setImageResource(R.drawable.avatar);
         }
         creatorName = findViewById(R.id.creatorName);

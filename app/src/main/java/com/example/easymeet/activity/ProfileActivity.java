@@ -30,11 +30,10 @@ public class ProfileActivity extends AppCompatActivity {
     private Button editProfileButton;
     private ImageView profileImage;
 
-    private Uri selectedImageUri; // To store the selected image URI
+    private Uri selectedImageUri;
 
-    int userId; // Replace this with your actual method of getting the current user ID.
+    int userId;
 
-    //ProfileData profileData = (ProfileData) getIntent().getSerializableExtra("profileData");
 
 
     @Override
@@ -78,14 +77,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void toggleEditMode() {
         if (isEditing) {
-            // Disable editing
             setEditingEnabled(false);
             editProfileButton.setText("Edit Profile");
             isEditing = false;
-            // Save changes when exiting edit mode
             saveProfileChanges();
         } else {
-            // Enable editing
             setEditingEnabled(true);
             editProfileButton.setText("Save Changes");
             isEditing = true;
@@ -95,18 +91,15 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setEditingEnabled(boolean enabled) {
-        // Enable or disable username edit
         usernameEdit.setFocusable(enabled);
         usernameEdit.setFocusableInTouchMode(enabled);
         usernameEdit.setCursorVisible(enabled);
 
-        // Enable or disable description edit
         descriptionEdit.setFocusable(enabled);
         descriptionEdit.setFocusableInTouchMode(enabled);
         descriptionEdit.setCursorVisible(enabled);
         profileImage.setClickable(enabled);
 
-        // Set input type only if enabling
         if (enabled) {
             usernameEdit.setInputType(InputType.TYPE_CLASS_TEXT);
             descriptionEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
@@ -165,7 +158,7 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
         }
 
-        // Disable image selection after saving
+
         profileImage.setOnClickListener(null);
         Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
         startActivity(intent);
@@ -176,13 +169,11 @@ public class ProfileActivity extends AppCompatActivity {
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
 
-            // Create a directory for your app's profile images
             File directory = new File(getFilesDir(), "Images");
             if (!directory.exists()) {
                 directory.mkdirs(); // Create the directory if it doesn't exist
             }
 
-            // Save the image as "profile_image_<userId>.png"
             File file = new File(directory, "profile_image_" + userId + ".png");
             FileOutputStream fos = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);

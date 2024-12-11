@@ -12,7 +12,6 @@ import com.example.easymeet.utility.DbHelper;
 
 public class UserRepository {
 
-    // Fetch user by email
     public static User getUserByEmail(Context context, String email) {
         User user = null;
         DbHelper dbHelper =  new DbHelper(context);
@@ -43,13 +42,12 @@ public class UserRepository {
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDb();
 
-        // Query to get the user by Id
         String query = "SELECT * FROM users WHERE Id = ?";
         String[] args = {String.valueOf(userId)};
 
         try (Cursor cursor = db.rawQuery(query, args)) {
             if (cursor.moveToFirst()) {
-                // Fetch the user data from the cursor
+
                 String firstName = cursor.getString(cursor.getColumnIndexOrThrow("firstName"));
                 String lastName = cursor.getString(cursor.getColumnIndexOrThrow("lastName"));
                 String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
@@ -70,7 +68,6 @@ public class UserRepository {
         DbHelper dbHelper = new DbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        // Prepare the user data to insert
         ContentValues values = new ContentValues();
         values.put("firstName", user.getFirstName());
         values.put("lastName", user.getLastName());
@@ -103,11 +100,10 @@ public class UserRepository {
         catch (Exception e) {
             e.printStackTrace();
         } finally {
-            db.close(); // Ensure database connection is closed
+            db.close();
         }
 
 
-        // Return true if the insertion was successful, otherwise false
         return id != -1;
 
     }
@@ -129,7 +125,6 @@ public class UserRepository {
                 String emailFromDb = cursor.getString(cursor.getColumnIndexOrThrow("email"));
                 String passwordFromDb = cursor.getString(cursor.getColumnIndexOrThrow("password"));
 
-                // Create a User object if credentials match
                 user = new User(firstName, lastName, username, emailFromDb, passwordFromDb, null);
                 user.setId(id);
             }
@@ -158,11 +153,11 @@ public class UserRepository {
         String[] args = {email};
 
         try (Cursor cursor = db.rawQuery(query, args)) {
-            userExists = cursor.moveToFirst(); // If a result exists, the user exists
+            userExists = cursor.moveToFirst();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            db.close(); // Ensure database is closed
+            db.close();
         }
 
         return userExists;
@@ -177,13 +172,13 @@ public class UserRepository {
             ContentValues values = new ContentValues();
             values.put("password", newPassword);
 
-            // Update the password where the email matches
+
             int rowsAffected = db.update("users", values, "email = ?", new String[]{email});
-            isUpdated = rowsAffected > 0; // Returns true if at least one row was updated
+            isUpdated = rowsAffected > 0;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            db.close(); // Ensure the database is closed
+            db.close();
         }
 
         return isUpdated;

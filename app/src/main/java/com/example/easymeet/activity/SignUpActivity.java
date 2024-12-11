@@ -61,13 +61,12 @@ public class SignUpActivity extends AppCompatActivity {
                     return; // Stop further processing if password is invalid
                 }
 
-                // Check if passwords match
+
                 if (!passwordTxt.equals(confirmPasswordTxt)) {
                     Toast.makeText(SignUpActivity.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // You can add more validation for the email and username if needed
                 if (usernameTxt.isEmpty() || emailTxt.isEmpty() || firstNameTxt.isEmpty() || lastNameTxt.isEmpty()) {
                     Toast.makeText(SignUpActivity.this, "Firstname , lastname, username and email are required.", Toast.LENGTH_SHORT).show();
                     return;
@@ -109,38 +108,7 @@ public class SignUpActivity extends AppCompatActivity {
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
-//    private String hashPassword(String password) {
-//        try {
-//            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-//            byte[] hashedBytes = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-//            StringBuilder hexString = new StringBuilder();
-//            for (byte b : hashedBytes) {
-//                String hex = Integer.toHexString(0xff & b);
-//                if (hex.length() == 1) hexString.append('0');
-//                hexString.append(hex);
-//            }
-//            return hexString.toString();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-//    public static String md5Hasshing(String s) {
-//        try {
-//            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-//            digest.update(s.getBytes());
-//            byte messageDigest[] = digest.digest();
-//
-//            StringBuffer hexString = new StringBuffer();
-//            for (int i=0; i<messageDigest.length; i++)
-//                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-//
-//            return hexString.toString();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-//        return "";
-//    }
+
 }
 
 

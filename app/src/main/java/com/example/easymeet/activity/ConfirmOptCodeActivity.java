@@ -30,18 +30,16 @@ public class ConfirmOptCodeActivity extends AppCompatActivity {
         goToConfirmPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Fetch text inside onClick
 
 
                 String confirmCodeTxt = confrimOptCode.getText().toString();
                 Intent intentGet = getIntent();
                 String confirmationCode = intentGet.getStringExtra("VERIFICATION_CODE");
                 String getEmail = intentGet.getStringExtra("email");
-                // Log both values for debugging
+
                 Log.d("TAG is:", confirmationCode);
                 Log.d("Entered text is:", confirmCodeTxt);
 
-                // Add null check and compare strings safely
                 if (confirmationCode != null && confirmationCode.equals(confirmCodeTxt)) {
                     Intent intent = new Intent(ConfirmOptCodeActivity.this, ChangePasswordActivity.class);
                     intent.putExtra("email",getEmail);
