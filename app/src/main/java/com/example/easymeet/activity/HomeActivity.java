@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easymeet.R;
@@ -38,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<Event> events = new ArrayList<>();
 
     ArrayList<Event> eventsJoined = new ArrayList<>();
+    Button logout;
 
 
     @Override
@@ -78,7 +80,18 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             Log.e("CreateEventActivity", "Button not found, check your layout.");
         }
-
+        logout = findViewById(R.id.logoutButton);
+        logout.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
+            startActivity(intent);
+        //    finish();
+        });
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Do nothing to effectively disable the back button
+            }
+        });
         events = EventRepository.getAllEvents(HomeActivity.this);
         eventsJoined = EventPRepository.getEventsByParticipantId(HomeActivity.this,SessionManager.getUserId(HomeActivity.this));
         eventAdapter.events = events;
@@ -121,5 +134,13 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         };
 
+
+
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        // Leave this method empty to disable the back button
+//        super.onBackPressed();
+//    }
 }

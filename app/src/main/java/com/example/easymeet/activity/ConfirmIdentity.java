@@ -43,6 +43,7 @@ public class ConfirmIdentity extends AppCompatActivity {
                 if (confirmationCode != null && confirmationCode.equals(confirmCodeTxt)) {
                     Intent intent = new Intent(ConfirmIdentity.this, HomeActivity.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(ConfirmIdentity.this, "Wrong code.", Toast.LENGTH_SHORT).show();
                 }

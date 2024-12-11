@@ -50,9 +50,11 @@ public class SignUpActivity extends AppCompatActivity {
                 String lastNameTxt = String.valueOf(lastName.getText());
                 String usernameTxt = String.valueOf(username.getText());
                 String emailTxt = String.valueOf(email.getText());
-                String passwordTxt = String.valueOf(password.getText());
+                String passwordTxt =  String.valueOf(password.getText());
                 String confirmPasswordTxt = String.valueOf(confirmPassword.getText());
-                User user = new User(firstNameTxt,lastNameTxt,usernameTxt,emailTxt,passwordTxt,confirmPasswordTxt);
+                String hashedPass = EncryptData.md5Hasshing(passwordTxt);
+                String confrimedHashedPass = EncryptData.md5Hasshing(confirmPasswordTxt);
+                User user = new User(firstNameTxt,lastNameTxt,usernameTxt,emailTxt,hashedPass,confrimedHashedPass);
 
                 if (!isPasswordValid(passwordTxt)) {
                     Toast.makeText(SignUpActivity.this, "Password must be at least 8 characters long, contain 1 number, 1 special character, and 1 uppercase letter.", Toast.LENGTH_LONG).show();

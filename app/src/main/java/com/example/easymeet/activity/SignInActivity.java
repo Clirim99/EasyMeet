@@ -9,12 +9,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easymeet.R;
 import com.example.easymeet.repository.UserRepository;
 import com.example.easymeet.utility.Authentication;
 import com.example.easymeet.utility.EmailSender;
+import com.example.easymeet.utility.EncryptData;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Random;
 
@@ -27,6 +30,7 @@ public class SignInActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private TextView forgotPassword;
+    private TextView createNewAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,15 @@ public class SignInActivity extends AppCompatActivity {
         username = findViewById(R.id.usernameinput);
         password = findViewById(R.id.passwordInput);
         forgotPassword = findViewById(R.id.forgotPasswordText);
-
+        createNewAccount = findViewById(R.id.gotoSignUpEditText);
         // Handle forgot password action
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Do nothing to effectively disable the back button
+            }
+        });
         forgotPassword.setOnClickListener(v -> {
             String email = username.getText().toString().trim();
             if(!UserRepository.doesUserExist(SignInActivity.this, email)){
@@ -60,13 +71,31 @@ public class SignInActivity extends AppCompatActivity {
             sendForgotPasswordEmail(email);
         });
 
-        // Handle login action
+        createNewAccount.setOnClickListener(v -> {
+            Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+            startActivity(intent);
+        });
+                    // Handle login action
         Button loginBtn = findViewById(R.id.loginButton);
         loginBtn.setOnClickListener(v -> {
             String usernameTxt = username.getText().toString().trim();
-            String passwordTxt = password.getText().toString().trim();
+            String passwordTxt = EncryptData.md5Hasshing(password.getText().toString().trim());
 
             if (Authentication.logIn(SignInActivity.this, usernameTxt, passwordTxt)) {
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(task -> {
+                            if (!task.isSuccessful()) {
+                                Log.i("MYTAG", "Fetching FCM registration token failed", task.getException());
+                                return;
+                            }
+
+                            // Get new FCM registration token
+                            String token = task.getResult();
+                            Log.i("MYTAG", "FCM Token: " + token);
+
+                            // You can store this token in your backend if you want to send notifications to this specific device later
+                        });
+
                 sendLoginEmail(usernameTxt);
                 //Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
                 //startActivity(intent);
@@ -82,6 +111,7 @@ public class SignInActivity extends AppCompatActivity {
      *
      * @param email The email address of the user.
      */
+
     private void sendForgotPasswordEmail(String email) {
         new Thread(() -> {
             // Generate a 6-digit verification code

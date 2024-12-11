@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.easymeet.R;
 import com.example.easymeet.repository.UserRepository;
+import com.example.easymeet.utility.EncryptData;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -48,7 +49,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     return;
                 }
 
-                boolean isUpdated = UserRepository.updatePassword(ChangePasswordActivity.this, getEmail, newPassword);
+                String hashedNewPassword = EncryptData.md5Hasshing(newPassword);
+                boolean isUpdated = UserRepository.updatePassword(ChangePasswordActivity.this, getEmail, hashedNewPassword);
                 if (isUpdated) {
                     Toast.makeText(ChangePasswordActivity.this, "Password updated successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ChangePasswordActivity.this, SignInActivity.class);

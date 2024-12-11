@@ -82,7 +82,6 @@ public class ProfileActivity extends AppCompatActivity {
             setEditingEnabled(false);
             editProfileButton.setText("Edit Profile");
             isEditing = false;
-
             // Save changes when exiting edit mode
             saveProfileChanges();
         } else {
@@ -91,6 +90,7 @@ public class ProfileActivity extends AppCompatActivity {
             editProfileButton.setText("Save Changes");
             isEditing = true;
             profileImage.setOnClickListener(v -> openImagePicker());
+
         }
     }
 
@@ -167,6 +167,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Disable image selection after saving
         profileImage.setOnClickListener(null);
+        Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 
 

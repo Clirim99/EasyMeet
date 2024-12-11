@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -49,4 +50,6 @@ dependencies {
     implementation("com.sun.mail:android-activation:1.6.2")
     compile("com.brevo:brevo:1.0.0")
     implementation("com.google.firebase:firebase-messaging:24.1.0")
+    implementation ("com.google.firebase:firebase-core:21.1.1")
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
 }
