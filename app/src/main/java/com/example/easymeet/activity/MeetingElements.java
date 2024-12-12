@@ -94,6 +94,11 @@ public class MeetingElements extends AppCompatActivity {
         } else {
             cancelEvent.setVisibility(View.INVISIBLE);
         }
+        imageView.setOnClickListener(v -> {
+            Intent intent = new Intent(MeetingElements.this, ProfileActivity.class);
+            intent.putExtra("id", String.valueOf(event.eventCreator));
+            startActivity(intent);
+        });
     }
 
     private void setupEditEventButton(Event event) {
