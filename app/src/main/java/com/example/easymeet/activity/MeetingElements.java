@@ -97,6 +97,7 @@ public class MeetingElements extends AppCompatActivity {
                 eventDescription.setEnabled(true);
 
                 editEvent.setText("Save Changes");
+
             } else {
                 // Save changes
                 isEditing = false;
@@ -125,9 +126,12 @@ public class MeetingElements extends AppCompatActivity {
                     eventDescription.setEnabled(false);
 
                     editEvent.setText("Edit Event");
+                    Intent intent = new Intent(MeetingElements.this, HomeActivity.class);
+                    startActivity(intent);
                 } else {
                     // Handle save failure
                     editEvent.setText("Save Changes");
+
                 }
             }
         });
