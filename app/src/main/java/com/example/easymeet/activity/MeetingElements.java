@@ -74,6 +74,16 @@ public class MeetingElements extends AppCompatActivity {
         eventDescription = findViewById(R.id.eventDescription);
         eventDescription.setText(event.eventDescription);
 
+        eventName.setFocusable(false);
+        eventName.setFocusableInTouchMode(false);
+        eventName.setCursorVisible(false);
+        eventTime.setFocusable(false);
+        eventTime.setFocusableInTouchMode(false);
+        eventTime.setCursorVisible(false);
+        eventDescription.setFocusable(false);
+        eventDescription.setFocusableInTouchMode(false);
+        eventDescription.setCursorVisible(false);
+
         cancelEvent = findViewById(R.id.cancelEventButton);
         if (event.eventCreator == SessionManager.getUserId(MeetingElements.this)) {
             cancelEvent.setOnClickListener(v -> {
@@ -92,16 +102,30 @@ public class MeetingElements extends AppCompatActivity {
             if (!isEditing) {
                 // Enable editing mode
                 isEditing = true;
-                eventName.setEnabled(true);
-                eventTime.setEnabled(true);
-                eventDescription.setEnabled(true);
+                eventName.setFocusable(true);
+                eventName.setFocusableInTouchMode(true);
+                eventName.setCursorVisible(true);
+                eventTime.setFocusable(true);
+                eventTime.setFocusableInTouchMode(true);
+                eventTime.setCursorVisible(true);
+                eventDescription.setFocusable(true);
+                eventDescription.setFocusableInTouchMode(true);
+                eventDescription.setCursorVisible(true);
 
                 editEvent.setText("Save Changes");
 
             } else {
                 // Save changes
                 isEditing = false;
-
+                eventName.setFocusable(false);
+                eventName.setFocusableInTouchMode(false);
+                eventName.setCursorVisible(false);
+                eventTime.setFocusable(false);
+                eventTime.setFocusableInTouchMode(false);
+                eventTime.setCursorVisible(false);
+                eventDescription.setFocusable(false);
+                eventDescription.setFocusableInTouchMode(false);
+                eventDescription.setCursorVisible(false);
                 String newEventName = eventName.getText().toString().trim();
                 String newEventTime = eventTime.getText().toString().trim();
                 String newEventDescription = eventDescription.getText().toString().trim();
@@ -115,15 +139,23 @@ public class MeetingElements extends AppCompatActivity {
                 );
 
                 if (isUpdated) {
-                    // Update the local `event` object
+
                     event.eventName = newEventName;
                     event.eventTime = newEventTime;
                     event.eventDescription = newEventDescription;
 
-                    // Disable editing mode
-                    eventName.setEnabled(false);
-                    eventTime.setEnabled(false);
-                    eventDescription.setEnabled(false);
+                    eventName.setFocusable(false);
+                    eventName.setFocusableInTouchMode(false);
+                    eventName.setCursorVisible(false);
+                    eventTime.setFocusable(false);
+                    eventTime.setFocusableInTouchMode(false);
+                    eventTime.setCursorVisible(false);
+                    eventDescription.setFocusable(false);
+                    eventDescription.setFocusableInTouchMode(false);
+                    eventDescription.setCursorVisible(false);
+//                    eventName.setEnabled(false);
+//                    eventTime.setEnabled(false);
+//                    eventDescription.setEnabled(false);
 
                     editEvent.setText("Edit Event");
                     Intent intent = new Intent(MeetingElements.this, HomeActivity.class);
