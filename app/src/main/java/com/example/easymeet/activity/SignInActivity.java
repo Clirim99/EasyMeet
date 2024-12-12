@@ -65,6 +65,7 @@ public class SignInActivity extends AppCompatActivity {
             }
 
 
+
             sendForgotPasswordEmail(email);
         });
 
@@ -94,12 +95,10 @@ public class SignInActivity extends AppCompatActivity {
                         });
 
                 sendLoginEmail(usernameTxt);
-                //Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
-                //startActivity(intent);
+
             } else {
                 Toast.makeText(SignInActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
             }
-            //sendLoginEmail(usernameTxt);
         });
     }
 

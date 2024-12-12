@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.MainActivity">
 
-    <!-- Username Input -->
+
     <EditText
         android:id="@+id/nameInput"
         android:layout_width="0dp"
@@ -34,7 +34,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp" />
-    <!-- Email Input -->
+
     <EditText
         android:id="@+id/usernameinput"
         android:layout_width="0dp"
@@ -63,7 +63,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp" />
 
-    <!-- Password Input -->
+
     <EditText
         android:id="@+id/passwordInput"
         android:layout_width="0dp"
@@ -78,7 +78,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp" />
 
-    <!-- Confirm Password Input -->
+
     <EditText
         android:id="@+id/confirmPasswordInput"
         android:layout_width="0dp"
@@ -96,7 +96,7 @@
 
 
 
-    <!-- Sign Up Button -->
+
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="0dp"

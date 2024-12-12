@@ -3,6 +3,13 @@ package com.example.easymeet.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,42 +21,35 @@ import com.example.easymeet.repository.EventRepository;
 import com.example.easymeet.repository.ProfileDataRepository;
 import com.example.easymeet.utility.SessionManager;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import java.io.File;
-
 
 public class MeetingElements extends AppCompatActivity {
 
     ImageView imageView;
     TextView creatorName;
-    TextView eventName;
-    TextView eventTime;
+    EditText eventName;
+    EditText eventTime;
     TextView numberOfMembers;
-    TextView eventDescription;
+    EditText eventDescription;
     Button cancelEvent;
+    Button editEvent;
     String id;
-   // String myUserId;
+    boolean isEditing = false; // Track if editing mode is active
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_itemelements);
+
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
-        Log.d("userID for event:", id);
 
         Event event = EventRepository.getEventById(MeetingElements.this, Integer.parseInt(id));
-        Log.d("eventID:", String.valueOf(event.eventCreator));
-        ProfileData profileData = ProfileDataRepository.getProfileDataByUserId(MeetingElements.this,event.eventCreator);
-        initializeComponents(event,profileData);
+        ProfileData profileData = ProfileDataRepository.getProfileDataByUserId(MeetingElements.this, event.eventCreator);
 
-        imageView.setOnClickListener(v -> openProfileActivity(event.eventCreator));
+        initializeComponents(event, profileData);
+        setupEditEventButton(event);
     }
 
     public void initializeComponents(Event event, ProfileData profileData) {
@@ -69,29 +69,67 @@ public class MeetingElements extends AppCompatActivity {
         eventTime.setText(event.eventTime);
 
         numberOfMembers = findViewById(R.id.numMembers);
-        // Convert numMembers (int) to String
         numberOfMembers.setText(String.valueOf(event.numMembers));
 
         eventDescription = findViewById(R.id.eventDescription);
         eventDescription.setText(event.eventDescription);
+
         cancelEvent = findViewById(R.id.cancelEventButton);
-        if (event.eventCreator == SessionManager.getUserId(MeetingElements.this)){
-        cancelEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            EventRepository.deleteEvent(MeetingElements.this,event);
-            Intent intent = new Intent(MeetingElements.this, HomeActivity.class);
-            startActivity(intent);
-            }
-        });}
-        else {
+        if (event.eventCreator == SessionManager.getUserId(MeetingElements.this)) {
+            cancelEvent.setOnClickListener(v -> {
+                EventRepository.deleteEvent(MeetingElements.this, event);
+                Intent intent = new Intent(MeetingElements.this, HomeActivity.class);
+                startActivity(intent);
+            });
+        } else {
             cancelEvent.setVisibility(View.INVISIBLE);
         }
     }
 
-    private void openProfileActivity(int userId) {
-        Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("id", String.valueOf(userId)); // Pass the userId to the ProfileActivity
-        startActivity(intent);
+    private void setupEditEventButton(Event event) {
+        editEvent = findViewById(R.id.editEventButton);
+        editEvent.setOnClickListener(v -> {
+            if (!isEditing) {
+                // Enable editing mode
+                isEditing = true;
+                eventName.setEnabled(true);
+                eventTime.setEnabled(true);
+                eventDescription.setEnabled(true);
+
+                editEvent.setText("Save Changes");
+            } else {
+                // Save changes
+                isEditing = false;
+
+                String newEventName = eventName.getText().toString().trim();
+                String newEventTime = eventTime.getText().toString().trim();
+                String newEventDescription = eventDescription.getText().toString().trim();
+
+                boolean isUpdated = EventRepository.editEvent(
+                        MeetingElements.this,
+                        event.Id,
+                        newEventName,
+                        newEventTime,
+                        newEventDescription
+                );
+
+                if (isUpdated) {
+                    // Update the local `event` object
+                    event.eventName = newEventName;
+                    event.eventTime = newEventTime;
+                    event.eventDescription = newEventDescription;
+
+                    // Disable editing mode
+                    eventName.setEnabled(false);
+                    eventTime.setEnabled(false);
+                    eventDescription.setEnabled(false);
+
+                    editEvent.setText("Edit Event");
+                } else {
+                    // Handle save failure
+                    editEvent.setText("Save Changes");
+                }
+            }
+        });
     }
 }

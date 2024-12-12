@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- Profile Image on Left Corner -->
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="64dp"
@@ -18,7 +17,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp" />
 
-    <!-- Go to Profile Button -->
     <Button
         android:id="@+id/goToProfileButton"
         android:layout_width="wrap_content"
@@ -29,7 +27,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp" />
 
-    <!-- Logout Button -->
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
@@ -40,7 +37,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="8dp" />
 
-    <!-- List of Events -->
     <ListView
         android:id="@+id/eventsListView"
         android:layout_width="0dp"
@@ -53,7 +49,6 @@
         android:layout_marginBottom="16dp"
         android:padding="8dp" />
 
-    <!-- Create Event Button -->
     <Button
         android:id="@+id/createEventButton"
         android:layout_width="wrap_content"

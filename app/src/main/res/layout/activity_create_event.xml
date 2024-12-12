@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Event Title -->
         <EditText
             android:id="@+id/editTextTitle"
             android:layout_width="0dp"
@@ -23,7 +22,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Event Description -->
         <EditText
             android:id="@+id/editTextDescription"
             android:layout_width="0dp"
@@ -37,7 +35,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Date Picker -->
         <DatePicker
             android:id="@+id/datePicker"
             android:layout_width="0dp"
@@ -46,7 +43,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Time Picker -->
         <TimePicker
             android:id="@+id/timePicker"
             android:layout_width="0dp"
@@ -57,7 +53,6 @@
 
 
 
-        <!-- Save Button -->
         <Button
             android:id="@+id/btnSaveEvent"
             android:layout_width="0dp"
@@ -67,7 +62,10 @@
             app:layout_constraintTop_toBottomOf="@id/timePicker"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="48dp"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

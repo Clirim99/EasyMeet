@@ -43,7 +43,7 @@ public class NotificationUtils {
         Notification notification = new Notification.Builder(context, CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setSmallIcon(R.drawable.avatar) // Use your own icon
+                .setSmallIcon(R.drawable.easymeet) // Use your own icon
                 .build();
 
         // Get the notification manager and send the notification

@@ -112,4 +112,30 @@ public class EventRepository {
         return rowsDeleted > 0;
     }
 
+    public static boolean editEvent(Context context, int eventId, String eventName, String eventTime, String eventDescription) {
+        DbHelper dbHelper = new DbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("eventName", eventName);
+        values.put("eventTime", eventTime);
+        values.put("eventDescription", eventDescription);
+
+        int rowsUpdated = 0;
+        try {
+            rowsUpdated = db.update(
+                    "events",
+                    values,
+                    "Id = ?",
+                    new String[]{String.valueOf(eventId)}
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.close();
+        }
+
+        return rowsUpdated > 0;
+    }
+
 }

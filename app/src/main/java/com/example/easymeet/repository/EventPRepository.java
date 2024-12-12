@@ -103,23 +103,23 @@ public class EventPRepository {
     }
 
     // Method to remove all participants from a specific event
-    public static boolean removeAllParticipantsByEventId(Context context, int eventId) {
-        DbHelper dbHelper = new DbHelper(context);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        int rowsDeleted = 0;
-        try {
-            rowsDeleted = db.delete(
-                    "EventParticipants",
-                    "EventId = ?",
-                    new String[]{String.valueOf(eventId)}
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            db.close();
-        }
-
-        return rowsDeleted > 0;
-    }
+//    public static boolean removeAllParticipantsByEventId(Context context, int eventId) {
+//        DbHelper dbHelper = new DbHelper(context);
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//
+//        int rowsDeleted = 0;
+//        try {
+//            rowsDeleted = db.delete(
+//                    "EventParticipants",
+//                    "EventId = ?",
+//                    new String[]{String.valueOf(eventId)}
+//            );
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            db.close();
+//        }
+//
+//        return rowsDeleted > 0;
+//    }
 }
