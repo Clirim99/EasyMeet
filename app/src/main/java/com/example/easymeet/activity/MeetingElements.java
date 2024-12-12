@@ -98,52 +98,26 @@ public class MeetingElements extends AppCompatActivity {
 
     private void setupEditEventButton(Event event) {
         editEvent = findViewById(R.id.editEventButton);
-        editEvent.setOnClickListener(v -> {
-            if (!isEditing) {
-                // Enable editing mode
-                isEditing = true;
-                eventName.setFocusable(true);
-                eventName.setFocusableInTouchMode(true);
-                eventName.setCursorVisible(true);
-                eventTime.setFocusable(true);
-                eventTime.setFocusableInTouchMode(true);
-                eventTime.setCursorVisible(true);
-                eventDescription.setFocusable(true);
-                eventDescription.setFocusableInTouchMode(true);
-                eventDescription.setCursorVisible(true);
+        if (event.eventCreator == SessionManager.getUserId(MeetingElements.this)) {
+            editEvent.setOnClickListener(v -> {
+                if (!isEditing) {
+                    // Enable editing mode
+                    isEditing = true;
+                    eventName.setFocusable(true);
+                    eventName.setFocusableInTouchMode(true);
+                    eventName.setCursorVisible(true);
+                    eventTime.setFocusable(true);
+                    eventTime.setFocusableInTouchMode(true);
+                    eventTime.setCursorVisible(true);
+                    eventDescription.setFocusable(true);
+                    eventDescription.setFocusableInTouchMode(true);
+                    eventDescription.setCursorVisible(true);
 
-                editEvent.setText("Save Changes");
+                    editEvent.setText("Save Changes");
 
-            } else {
-                // Save changes
-                isEditing = false;
-                eventName.setFocusable(false);
-                eventName.setFocusableInTouchMode(false);
-                eventName.setCursorVisible(false);
-                eventTime.setFocusable(false);
-                eventTime.setFocusableInTouchMode(false);
-                eventTime.setCursorVisible(false);
-                eventDescription.setFocusable(false);
-                eventDescription.setFocusableInTouchMode(false);
-                eventDescription.setCursorVisible(false);
-                String newEventName = eventName.getText().toString().trim();
-                String newEventTime = eventTime.getText().toString().trim();
-                String newEventDescription = eventDescription.getText().toString().trim();
-
-                boolean isUpdated = EventRepository.editEvent(
-                        MeetingElements.this,
-                        event.Id,
-                        newEventName,
-                        newEventTime,
-                        newEventDescription
-                );
-
-                if (isUpdated) {
-
-                    event.eventName = newEventName;
-                    event.eventTime = newEventTime;
-                    event.eventDescription = newEventDescription;
-
+                } else {
+                    // Save changes
+                    isEditing = false;
                     eventName.setFocusable(false);
                     eventName.setFocusableInTouchMode(false);
                     eventName.setCursorVisible(false);
@@ -153,19 +127,52 @@ public class MeetingElements extends AppCompatActivity {
                     eventDescription.setFocusable(false);
                     eventDescription.setFocusableInTouchMode(false);
                     eventDescription.setCursorVisible(false);
+                    String newEventName = eventName.getText().toString().trim();
+                    String newEventTime = eventTime.getText().toString().trim();
+                    String newEventDescription = eventDescription.getText().toString().trim();
+
+                    boolean isUpdated = EventRepository.editEvent(
+                            MeetingElements.this,
+                            event.Id,
+                            newEventName,
+                            newEventTime,
+                            newEventDescription
+                    );
+
+                    if (isUpdated) {
+
+                        event.eventName = newEventName;
+                        event.eventTime = newEventTime;
+                        event.eventDescription = newEventDescription;
+
+                        eventName.setFocusable(false);
+                        eventName.setFocusableInTouchMode(false);
+                        eventName.setCursorVisible(false);
+                        eventTime.setFocusable(false);
+                        eventTime.setFocusableInTouchMode(false);
+                        eventTime.setCursorVisible(false);
+                        eventDescription.setFocusable(false);
+                        eventDescription.setFocusableInTouchMode(false);
+                        eventDescription.setCursorVisible(false);
 //                    eventName.setEnabled(false);
 //                    eventTime.setEnabled(false);
 //                    eventDescription.setEnabled(false);
+                        editEvent.setText("Edit Event");
+                        Intent intent = new Intent(MeetingElements.this, HomeActivity.class);
+                        startActivity(intent);
+                        editEvent.setVisibility(View.INVISIBLE);
 
-                    editEvent.setText("Edit Event");
-                    Intent intent = new Intent(MeetingElements.this, HomeActivity.class);
-                    startActivity(intent);
-                } else {
-                    // Handle save failure
-                    editEvent.setText("Save Changes");
 
+                    } else {
+                        // Handle save failure
+                        editEvent.setText("Save Changes");
+
+                    }
                 }
-            }
-        });
+            });
+        }
+        else {
+            editEvent.setVisibility(View.INVISIBLE);
+        }
     }
 }
