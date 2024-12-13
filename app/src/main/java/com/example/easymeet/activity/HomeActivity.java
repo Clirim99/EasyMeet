@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home_screen);
-
+        
 
         profileImage = findViewById(R.id.profileImage);
         ProfileData myProfileData = ProfileDataRepository.getProfileDataByUserId(HomeActivity.this,SessionManager.getUserId(HomeActivity.this));
@@ -90,7 +90,8 @@ public class HomeActivity extends AppCompatActivity {
         logout.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
             startActivity(intent);
-        //    finish();
+            // SessionManager.logout(HomeActivity.this);
+            //    finish();
         });
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override

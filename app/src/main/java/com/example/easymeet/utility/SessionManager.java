@@ -21,10 +21,10 @@ public class SessionManager {
     }
 
     // Check if user is logged in (i.e., if user ID exists in SharedPreferences)
-    public static boolean isUserLoggedIn(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.contains(KEY_USER_ID);  // Check if user ID exists
-    }
+//    public static boolean isUserLoggedIn(Context context) {
+//        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+//        return sharedPreferences.contains(KEY_USER_ID);  // Check if user ID exists
+//    }
 
     // Clear the saved user ID (logout)
     public static void logout(Context context) {
